@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Bot : MonoBehaviour {
+public class Bot : MonoBehaviour
+{
 
     public Transform[] sensors;
     private Transform sensor;
@@ -23,34 +24,33 @@ public class Bot : MonoBehaviour {
     private float rot;
 
     public GameObject deadCell;
+    public SpriteRenderer Color;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         //genome = new int[64];
         controller = 0;
-
-        if(LevelManager.startEnergy > 0) energy = LevelManager.startEnergy;
+        if (LevelManager.Instance.startEnergyValue > 0) energy = LevelManager.Instance.startEnergyValue;
         if (Random.Range(0, 3) == 1)
         {
-            FindObjectOfType<LevelManager>().mutations++;
+            LevelManager.Instance.mutations++;
             genome[Random.Range(0, 63)] = Random.Range(0, 63);
         }
-
         ChangeColor();
 
-        for(int i = 0; i< genome.Length; i++)
+        for (int i = 0; i < genome.Length; i++)
         {
             //genome[i] = Random.Range(0,63);
             //genome[i] = 10;
         }
 
         sensor = sensors[0];
-        gameObject.name = "cell";
     }
-	
-	public void ChangeColor()
+
+    public void ChangeColor()
     {
-        GetComponent<SpriteRenderer>().color = new Color(red, green, blue);
+        Color.color = new Color(red, green, blue);
     }
 
     public void Step()
@@ -58,13 +58,14 @@ public class Bot : MonoBehaviour {
         colliders = Physics2D.OverlapCircleAll(sensor.position, 0.1f);
         if (controller > 63) controller -= 64;
 
-        energy--;        
+        energy--;
 
-        if (energy > LevelManager.energyToDivide)
+        if (energy > LevelManager.Instance.energyToDivideValue)
         {
             TryToDivide();
         }
-        if (energy <= 0) {
+        if (energy <= 0)
+        {
             Destroy(gameObject);
             return;
             //Debug.Log("starved");
@@ -72,7 +73,9 @@ public class Bot : MonoBehaviour {
         // смотрит
         if (genome[controller] == 0)
         {
+            Profiler.BeginSample("Look");
             Look();
+            Profiler.EndSample();
             return;
         }
         // поворачивается
@@ -84,13 +87,18 @@ public class Bot : MonoBehaviour {
         // жрёт
         else if (genome[controller] == 8)
         {
+            Profiler.BeginSample("Look"); 
             Eat();
+            Profiler.EndSample();
             return;
         }
         // жрёт
         else if (genome[controller] == 9)
         {
+            Profiler.BeginSample("Move");
             Move();
+            Profiler.EndSample();
+
             return;
         }
         // фотосинтез
@@ -108,7 +116,7 @@ public class Bot : MonoBehaviour {
         // рожает
         else if (genome[controller] == 12)
         {
-            if (energy > LevelManager.energyToDivide)
+            if (energy > LevelManager.Instance.energyToDivideValue)
             {
                 TryToDivide();
                 return;
@@ -120,12 +128,12 @@ public class Bot : MonoBehaviour {
             controller += genome[controller];
             return;
         }
-        
+
     }
 
     void TryToDivide()
     {
-        for(int i = sensors.Length-1; i >= 0 ; i--)
+        for (int i = sensors.Length - 1; i >= 0; i--)
         {
             if (Physics2D.OverlapCircleAll(sensors[i].position, 0.1f).Length == 0)
             {
@@ -133,12 +141,12 @@ public class Bot : MonoBehaviour {
                 return;
             }
         }
-        Die();  
+        Die();
     }
 
     void Divide(Transform tr)
     {
-        
+
         Instantiate(this, new Vector2(Mathf.Round(tr.position.x), Mathf.Round(tr.position.y)), tr.rotation);
         energy /= 2;
     }
@@ -150,7 +158,7 @@ public class Bot : MonoBehaviour {
             controller++;
             return;
         }
-        
+
         if (colliders[0].gameObject.layer == LayerMask.NameToLayer("side"))         // Край
         {
             controller++;
@@ -172,7 +180,7 @@ public class Bot : MonoBehaviour {
             else controller += 5;
             return;
         }
-        
+
     }
 
     void Turn()
@@ -203,7 +211,7 @@ public class Bot : MonoBehaviour {
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("food"))    // еда
         {
-            energy += LevelManager.callories;
+            energy += LevelManager.Instance.calloriesValue;
             controller += 3;
             Destroy(colliders[0].gameObject);
 
@@ -222,12 +230,12 @@ public class Bot : MonoBehaviour {
             if (CheckRelations())
             {
                 controller += 4;
-                energy += LevelManager.callories;
+                energy += LevelManager.Instance.calloriesValue;
             }
             else
             {
                 controller += 5;
-                energy += LevelManager.callories;
+                energy += LevelManager.Instance.calloriesValue;
             }
             Destroy(colliders[0].gameObject);
 
@@ -268,7 +276,7 @@ public class Bot : MonoBehaviour {
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("food"))    // еда
         {
-            energy += LevelManager.callories;
+            energy += LevelManager.Instance.calloriesValue;
             controller += 3;
             Destroy(colliders[0].gameObject);
 
@@ -288,12 +296,12 @@ public class Bot : MonoBehaviour {
             if (CheckRelations())
             {
                 controller += 4;
-                energy += LevelManager.callories;
+                energy += LevelManager.Instance.calloriesValue;
             }
             else
             {
                 controller += 5;
-                energy += LevelManager.callories;
+                energy += LevelManager.Instance.calloriesValue;
             }
             Destroy(colliders[0].gameObject);
 
@@ -313,10 +321,10 @@ public class Bot : MonoBehaviour {
 
     void Synth()
     {
-        energy += (int)Mathf.Round(transform.position.y * LevelManager.synthMultipler);
+        energy += (int)Mathf.Round(transform.position.y * LevelManager.Instance.synthMultiplerValue);
         controller++;
 
-        
+
         green += 0.1f;
         if (green > 1) green = 1;
         blue -= 0.1f;
@@ -330,11 +338,11 @@ public class Bot : MonoBehaviour {
     {
         int cnt = controller + 1;
         if (cnt > 63) cnt -= 64;
-        if (energy < genome[cnt]*15)
+        if (energy < genome[cnt] * 15)
         {
             controller += 2;
         }
-        if (energy >= genome[cnt]*15)
+        if (energy >= genome[cnt] * 15)
         {
             controller += 3;
         }
