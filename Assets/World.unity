@@ -841,7 +841,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1320081013}
-  m_Text: 'Cells:'
+  m_Text: 'Deads:'
   m_OffsetZ: 0
   m_CharacterSize: 1.59
   m_LineSpacing: 1
@@ -891,7 +891,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1320081013}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 55.9, y: 63.6, z: 0}
+  m_LocalPosition: {x: 54, y: 63.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
