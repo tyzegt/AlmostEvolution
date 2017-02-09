@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{881CB4E8-DD7B-7F67-B289-30E8E1F59CBC}</ProjectGuid>
+    <ProjectGuid>{5D9B3839-D5E7-B4D4-4041-4FC45C63CB5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Bot.cs" />
-     <Compile Include="Assets\Scripts\DeadCell.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/misc/Un/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

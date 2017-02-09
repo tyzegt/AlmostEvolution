@@ -16,7 +16,6 @@ public class Bot : MonoBehaviour {
     public int energy;
     [Space()]
     public int controller;
-    public int steps;
     [Space()]
     public float red;
     public float green;
@@ -46,7 +45,7 @@ public class Bot : MonoBehaviour {
         }
 
         sensor = sensors[0];
-
+        gameObject.name = "cell";
     }
 	
 	public void ChangeColor()
@@ -59,8 +58,7 @@ public class Bot : MonoBehaviour {
         colliders = Physics2D.OverlapCircleAll(sensor.position, 0.1f);
         if (controller > 63) controller -= 64;
 
-        energy--;
-        GetComponent<SpriteRenderer>().color = new Color(red, green, blue);
+        energy--;        
 
         if (energy > LevelManager.energyToDivide)
         {
@@ -68,9 +66,9 @@ public class Bot : MonoBehaviour {
         }
         if (energy <= 0) {
             Destroy(gameObject);
+            return;
             //Debug.Log("starved");
         }
-
         // смотрит
         if (genome[controller] == 0)
         {
@@ -78,7 +76,7 @@ public class Bot : MonoBehaviour {
             return;
         }
         // поворачивается
-        else if(genome[controller] > 0 && genome[controller] < 8)
+        else if (genome[controller] > 0 && genome[controller] < 8)
         {
             Turn();
             return;
@@ -108,18 +106,18 @@ public class Bot : MonoBehaviour {
             return;
         }
         // рожает
-        /*
         else if (genome[controller] == 12)
         {
-            TryToDivide();
-            return;
+            if (energy > LevelManager.energyToDivide)
+            {
+                TryToDivide();
+                return;
+            }
         }
-        */
         // переход
-        else if (genome[controller] > 11)
+        else if (genome[controller] > 12)
         {
             controller += genome[controller];
-            steps++;
             return;
         }
         
@@ -143,7 +141,6 @@ public class Bot : MonoBehaviour {
         
         Instantiate(this, new Vector2(Mathf.Round(tr.position.x), Mathf.Round(tr.position.y)), tr.rotation);
         energy /= 2;
-        steps++;
     }
 
     void Look()
@@ -151,33 +148,28 @@ public class Bot : MonoBehaviour {
         if (colliders.Length == 0)                                                  // Пусто
         {
             controller++;
-            steps++;
             return;
         }
         
         if (colliders[0].gameObject.layer == LayerMask.NameToLayer("side"))         // Край
         {
             controller++;
-            steps++;
             return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("wall"))    // стена
         {
             controller += 2;
-            steps++;
             return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("food"))    // еда
         {
             controller += 3;
-            steps++;
             return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("bot"))     // бот
         {
             if (CheckRelations()) controller += 4;
             else controller += 5;
-            steps++;
             return;
         }
         
@@ -189,7 +181,6 @@ public class Bot : MonoBehaviour {
         if (rot > 360) rot -= 360;
         transform.rotation = Quaternion.Euler(0, 0, rot);
         controller++;
-        steps++;
     }
 
     void Eat()
@@ -197,35 +188,32 @@ public class Bot : MonoBehaviour {
         if (colliders.Length == 0)                                                  // Пусто
         {
             controller++;
-            steps = 15;
             return;
         }
 
         if (colliders[0].gameObject.layer == LayerMask.NameToLayer("side"))         // Край
         {
             controller++;
-            steps = 15;
             return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("wall"))    // стена
         {
             controller += 2;
-            steps = 15;
             return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("food"))    // еда
         {
             energy += LevelManager.callories;
             controller += 3;
-            steps = 15;
             Destroy(colliders[0].gameObject);
 
             red += 1f;
             if (red > 1) red = 1;
-            green -= 0.1f;
+            green -= 1f;
             if (green < 0) green = 0;
-            blue -= 0.1f;
+            blue -= 1f;
             if (blue < 0) blue = 0;
+            ChangeColor();
 
             return;
         }
@@ -242,15 +230,14 @@ public class Bot : MonoBehaviour {
                 energy += LevelManager.callories;
             }
             Destroy(colliders[0].gameObject);
-            steps=15;
 
             red += 1f;
             if (red > 1) red = 1;
-            green -= 0.1f;
+            green -= 1f;
             if (green < 0) green = 0;
-            blue -= 0.1f;
+            blue -= 1f;
             if (blue < 0) blue = 0;
-
+            ChangeColor();
             return;
         }
 
@@ -262,7 +249,6 @@ public class Bot : MonoBehaviour {
         {
             transform.position = new Vector2(Mathf.Round(sensor.position.x), Mathf.Round(sensor.position.y));
             controller++;
-            steps = 15;
             return;
         }
 
@@ -273,30 +259,29 @@ public class Bot : MonoBehaviour {
             if (newx > 99) newx = 0;
             transform.position = new Vector2(newx, Mathf.Round(sensor.position.y));
             controller++;
-            steps = 15;
             return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("wall"))    // стена
         {
             controller += 2;
-            steps = 15;
             return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("food"))    // еда
         {
             energy += LevelManager.callories;
             controller += 3;
-            steps = 15;
             Destroy(colliders[0].gameObject);
 
             transform.position = new Vector2(Mathf.Round(sensor.position.x), Mathf.Round(sensor.position.y));
 
             red += 1f;
             if (red > 1) red = 1;
-            green -= 0.1f;
+            green -= 1f;
             if (green < 0) green = 0;
-            blue -= 0.1f;
+            blue -= 1f;
             if (blue < 0) blue = 0;
+            ChangeColor();
+            return;
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("bot"))     // бот
         {
@@ -311,17 +296,16 @@ public class Bot : MonoBehaviour {
                 energy += LevelManager.callories;
             }
             Destroy(colliders[0].gameObject);
-            steps = 15;
 
             transform.position = new Vector2(Mathf.Round(sensor.position.x), Mathf.Round(sensor.position.y));
 
             red += 1f;
             if (red > 1) red = 1;
-            green -= 0.1f;
+            green -= 1f;
             if (green < 0) green = 0;
-            blue -= 0.1f;
+            blue -= 1f;
             if (blue < 0) blue = 0;
-
+            ChangeColor();
             return;
         }
 
@@ -331,7 +315,6 @@ public class Bot : MonoBehaviour {
     {
         energy += (int)Mathf.Round(transform.position.y * LevelManager.synthMultipler);
         controller++;
-        steps = 15;
 
         
         green += 0.1f;
@@ -340,6 +323,7 @@ public class Bot : MonoBehaviour {
         if (blue < 0) blue = 0;
         red -= 0.1f;
         if (red < 0) red = 0;
+        ChangeColor();
     }
 
     void CheckEnergy()
@@ -349,12 +333,10 @@ public class Bot : MonoBehaviour {
         if (energy < genome[cnt]*15)
         {
             controller += 2;
-            steps++;
         }
         if (energy >= genome[cnt]*15)
         {
             controller += 3;
-            steps++;
         }
     }
 

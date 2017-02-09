@@ -20,12 +20,7 @@ public class LevelManager : MonoBehaviour {
     public int mutations;
     public TextMesh mutationsText;
     public TextMesh fpsText;
-
-
-    public GameObject cell;
-
-    Bot[] cells;
-
+    
     // Use this for initialization
     void Start () {
         callories = calloriesValue;
@@ -36,20 +31,7 @@ public class LevelManager : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-
-        cells = FindObjectsOfType<Bot>();
-        if (cells.Length == 0)
-        {
-            GameObject[] corpses = GameObject.FindGameObjectsWithTag("food");
-            for (int i = 0; i < corpses.Length; i++)
-            {
-                Destroy(corpses[i]);
-            }
-            Instantiate(cell, new Vector2(48, 56), transform.rotation);
-        }
-        //Debug.Log(Time.deltaTime);
-
+	void Update () {        
         mutationsText.text = mutations.ToString();
         fpsText.text = (1 / Time.deltaTime).ToString();
     }
