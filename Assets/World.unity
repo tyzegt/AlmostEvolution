@@ -284,6 +284,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 626383793}
   - 114: {fileID: 626383792}
+  - 114: {fileID: 626383794}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -302,10 +303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a82ff5064422842a43ea1a8d75653d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  calloriesValue: 200
-  startEnergyValue: 50
-  synthMultiplerValue: 1
-  energyToDivideValue: 1000
   mutations: 0
   mutationsText: {fileID: 1739560066}
   fpsText: {fileID: 808729391}
@@ -325,6 +322,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!114 &626383794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626383791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ffa2dfd85af0249b60edfa2ee0fca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeadCell: {fileID: 173360, guid: 6b6f9dc3dfa172647b75284c5dc74c24, type: 2}
 --- !u!1 &808729390
 GameObject:
   m_ObjectHideFlags: 0

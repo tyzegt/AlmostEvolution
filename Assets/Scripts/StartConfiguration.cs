@@ -25,8 +25,8 @@ public class StartConfiguration : MonoBehaviour
     {
         foreach (var slot in Slots)
         {
-            //Registry.Instance.Add(slot.Position, Quaternion.identity, slot.Cell);
-            var go = Instantiate(slot.Cell, slot.Position, Quaternion.identity);
+            Registry.Instance.Add(slot.Position, Quaternion.identity, slot.Cell);
+            //var go = Instantiate(slot.Cell, slot.Position, Quaternion.identity);
         }
     }
 }

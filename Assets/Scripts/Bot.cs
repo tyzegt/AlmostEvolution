@@ -26,6 +26,8 @@ public class Bot : MonoBehaviour
     public GameObject deadCell;
     public SpriteRenderer Color;
 
+    public int Id { get { return GetInstanceID(); } }
+
     // Use this for initialization
     void Start()
     {
@@ -66,7 +68,7 @@ public class Bot : MonoBehaviour
         }
         if (energy <= 0)
         {
-            Destroy(gameObject);
+            Registry.Instance.Kill(Id);
             return;
             //Debug.Log("starved");
         }
@@ -146,8 +148,7 @@ public class Bot : MonoBehaviour
 
     void Divide(Transform tr)
     {
-
-        Instantiate(this, new Vector2(Mathf.Round(tr.position.x), Mathf.Round(tr.position.y)), tr.rotation);
+        Registry.Instance.Add(tr.position, tr.rotation, this);
         energy /= 2;
     }
 
@@ -350,8 +351,7 @@ public class Bot : MonoBehaviour
 
     public void Die()
     {
-        Instantiate(deadCell, transform.position, transform.rotation);
-        Destroy(gameObject);
+        Registry.Instance.Kill(Id);
     }
 
     bool CheckRelations()
