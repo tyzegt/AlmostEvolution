@@ -16,6 +16,8 @@ public class LevelManager : Singleton<LevelManager>
     public int mutations;
     public TextMesh mutationsText;
     public TextMesh fpsText;
+    public TextMesh cellsCountText;
+    public TextMesh corpseCountText;
 
     public List<Transform> StartPositions;
     public StartConfiguration Configuration;
@@ -35,5 +37,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         mutationsText.text = mutations.ToString();
         fpsText.text = (1 / Time.deltaTime).ToString();
+        cellsCountText.text = Registry.Instance.GetCellsCount().ToString();
+        corpseCountText.text = Registry.Instance.GetCorpsesCount().ToString();
     }
 }

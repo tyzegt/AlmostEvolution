@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-
+using System;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 public class Bot : MonoBehaviour
 {
 
@@ -58,6 +59,10 @@ public class Bot : MonoBehaviour
     public void Step()
     {
         colliders = Physics2D.OverlapCircleAll(sensor.position, 0.1f);
+
+        //Profiler.BeginSample("Get neighbor");
+        //colliders = Registry.Instance.GetInRadius(sensor.position, 0.1f);
+        //Profiler.EndSample();
         if (controller > 63) controller -= 64;
 
         energy--;
@@ -68,7 +73,7 @@ public class Bot : MonoBehaviour
         }
         if (energy <= 0)
         {
-            Registry.Instance.Kill(Id);
+            Registry.Instance.Kill(gameObject);
             return;
             //Debug.Log("starved");
         }
@@ -214,7 +219,7 @@ public class Bot : MonoBehaviour
         {
             energy += LevelManager.Instance.Callories;
             controller += 3;
-            Destroy(colliders[0].gameObject);
+            Registry.Instance.Kill(colliders[0].gameObject);
 
             red += 1f;
             if (red > 1) red = 1;
@@ -238,7 +243,7 @@ public class Bot : MonoBehaviour
                 controller += 5;
                 energy += LevelManager.Instance.Callories;
             }
-            Destroy(colliders[0].gameObject);
+            Registry.Instance.Kill(colliders[0].gameObject);
 
             red += 1f;
             if (red > 1) red = 1;
@@ -279,7 +284,7 @@ public class Bot : MonoBehaviour
         {
             energy += LevelManager.Instance.Callories;
             controller += 3;
-            Destroy(colliders[0].gameObject);
+            Registry.Instance.Kill(colliders[0].gameObject);
 
             transform.position = new Vector2(Mathf.Round(sensor.position.x), Mathf.Round(sensor.position.y));
 
@@ -304,7 +309,7 @@ public class Bot : MonoBehaviour
                 controller += 5;
                 energy += LevelManager.Instance.Callories;
             }
-            Destroy(colliders[0].gameObject);
+            Registry.Instance.Kill(colliders[0].gameObject);
 
             transform.position = new Vector2(Mathf.Round(sensor.position.x), Mathf.Round(sensor.position.y));
 
@@ -351,7 +356,7 @@ public class Bot : MonoBehaviour
 
     public void Die()
     {
-        Registry.Instance.Kill(Id);
+        Registry.Instance.Kill(gameObject);
     }
 
     bool CheckRelations()

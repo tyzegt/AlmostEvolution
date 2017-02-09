@@ -25,7 +25,7 @@ public class StartConfiguration : MonoBehaviour
     {
         foreach (var slot in Slots)
         {
-            Registry.Instance.Add(slot.Position, Quaternion.identity, slot.Cell);
+            Registry.Instance.Add(slot.Position, Quaternion.identity, slot.Cell).name = ProductedCellName;
             //var go = Instantiate(slot.Cell, slot.Position, Quaternion.identity);
         }
     }
