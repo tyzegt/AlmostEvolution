@@ -51,11 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eb0f728492b8f04582aff9247580128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Callories: 200
+  StartEnergy: 50
+  SynthMultipler: 1
+  EnergyToDivide: 1000
   Slots:
   - Position: {x: 22, y: 55}
-    Cell: {fileID: 102922, guid: 67749043cc34d7743b7b0aac0a47275a, type: 2}
+    Cell: {fileID: 11489950, guid: 67749043cc34d7743b7b0aac0a47275a, type: 2}
   - Position: {x: 50, y: 55}
-    Cell: {fileID: 119604, guid: 8837396a3bee4864da812b6b5459c83b, type: 2}
+    Cell: {fileID: 11488072, guid: 8837396a3bee4864da812b6b5459c83b, type: 2}
   - Position: {x: 80, y: 55}
-    Cell: {fileID: 102922, guid: 67749043cc34d7743b7b0aac0a47275a, type: 2}
+    Cell: {fileID: 11489950, guid: 67749043cc34d7743b7b0aac0a47275a, type: 2}
   ProductedCellName: Cell

@@ -31,7 +31,7 @@ public class Bot : MonoBehaviour
     {
         //genome = new int[64];
         controller = 0;
-        if (LevelManager.Instance.startEnergyValue > 0) energy = LevelManager.Instance.startEnergyValue;
+        if (LevelManager.Instance.StartEnergy > 0) energy = LevelManager.Instance.StartEnergy;
         if (Random.Range(0, 3) == 1)
         {
             LevelManager.Instance.mutations++;
@@ -60,7 +60,7 @@ public class Bot : MonoBehaviour
 
         energy--;
 
-        if (energy > LevelManager.Instance.energyToDivideValue)
+        if (energy > LevelManager.Instance.EnergyToDivide)
         {
             TryToDivide();
         }
@@ -87,7 +87,7 @@ public class Bot : MonoBehaviour
         // жрёт
         else if (genome[controller] == 8)
         {
-            Profiler.BeginSample("Look"); 
+            Profiler.BeginSample("Look");
             Eat();
             Profiler.EndSample();
             return;
@@ -116,7 +116,7 @@ public class Bot : MonoBehaviour
         // рожает
         else if (genome[controller] == 12)
         {
-            if (energy > LevelManager.Instance.energyToDivideValue)
+            if (energy > LevelManager.Instance.EnergyToDivide)
             {
                 TryToDivide();
                 return;
@@ -211,7 +211,7 @@ public class Bot : MonoBehaviour
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("food"))    // еда
         {
-            energy += LevelManager.Instance.calloriesValue;
+            energy += LevelManager.Instance.Callories;
             controller += 3;
             Destroy(colliders[0].gameObject);
 
@@ -230,12 +230,12 @@ public class Bot : MonoBehaviour
             if (CheckRelations())
             {
                 controller += 4;
-                energy += LevelManager.Instance.calloriesValue;
+                energy += LevelManager.Instance.Callories;
             }
             else
             {
                 controller += 5;
-                energy += LevelManager.Instance.calloriesValue;
+                energy += LevelManager.Instance.Callories;
             }
             Destroy(colliders[0].gameObject);
 
@@ -276,7 +276,7 @@ public class Bot : MonoBehaviour
         }
         else if (colliders[0].gameObject.layer == LayerMask.NameToLayer("food"))    // еда
         {
-            energy += LevelManager.Instance.calloriesValue;
+            energy += LevelManager.Instance.Callories;
             controller += 3;
             Destroy(colliders[0].gameObject);
 
@@ -296,12 +296,12 @@ public class Bot : MonoBehaviour
             if (CheckRelations())
             {
                 controller += 4;
-                energy += LevelManager.Instance.calloriesValue;
+                energy += LevelManager.Instance.Callories;
             }
             else
             {
                 controller += 5;
-                energy += LevelManager.Instance.calloriesValue;
+                energy += LevelManager.Instance.Callories;
             }
             Destroy(colliders[0].gameObject);
 
@@ -321,7 +321,7 @@ public class Bot : MonoBehaviour
 
     void Synth()
     {
-        energy += (int)Mathf.Round(transform.position.y * LevelManager.Instance.synthMultiplerValue);
+        energy += (int)Mathf.Round(transform.position.y * LevelManager.Instance.SynthMultipler);
         controller++;
 
 

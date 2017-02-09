@@ -4,16 +4,14 @@ using System.Collections.Generic;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    
-    public int calloriesValue;
 
-    public int startEnergyValue;
+    public int Callories { get { return Configuration.Callories; } }
 
-    public float synthMultiplerValue;
+    public int StartEnergy { get { return Configuration.StartEnergy; } }
 
-    public int energyToDivideValue;
+    public float SynthMultipler { get { return Configuration.SynthMultipler; } }
 
-    GameObject newCell;
+    public int EnergyToDivide { get { return Configuration.EnergyToDivide; } }
 
     public int mutations;
     public TextMesh mutationsText;
@@ -22,7 +20,7 @@ public class LevelManager : Singleton<LevelManager>
     public List<Transform> StartPositions;
     public StartConfiguration Configuration;
 
-    protected override void Init()
+    protected void Start()
     {
         Application.runInBackground = true;
 
