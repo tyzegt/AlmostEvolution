@@ -1,0 +1,14 @@
+
+/obj
+/Temp
+/Library
+/project.csproj.user
+/project.suo
+
+*.sln
+*.suo
+*.unityproj
+*.csproj
+*.pidb
+*.userprefs
+*.user
